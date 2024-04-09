@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  joomla:
+    image: joomla:latest
+    ports:
+      - "8082:80"
+    environment:
+      JOOMLA_DB_HOST: mysql
+      JOOMLA_DB_USER: root
+      JOOMLA_DB_PASSWORD: joomla123
+      JOOMLA_DB_NAME: joomla
+    depends_on:
+      - mysql
+    volumes:
+      - joomla_data:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: joomla123  # This should match JOOMLA_DB_PASSWORD above
+      MYSQL_DATABASE: joomla
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  joomla_data:
+  mysql_data:
